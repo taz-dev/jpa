@@ -19,13 +19,43 @@ public class JpaMain {
         tx.begin();
 
         try{
-//            Member member = new Member();
-//            member.setId(2L);
-//            member.setName("HelloB");
-//            em.persist(member); //JPA에 member 저장
+            //비영속
+            //Member member = new Member();
+            //member.setId(101L);
+            //member.setName("HelloJPA");
 
-//            Member findMember = em.find(Member.class, 1L);
-//            em.remove(findMember); //member 삭제
+            //영속(DB에 저장되는 것은 아님)
+            //em.persist(member); //JPA에 member 저장
+            //em.detach(member); //회원 엔티티를 영속성 컨텍스트에서 분리, 준영속 상태
+            //em.remove(member); //엔티티 삭제
+
+            //===============================================================
+
+            //Member findMember = em.find(Member.class, 101L);
+            //em.remove(findMember); //member 삭제
+
+            //===============================================================
+
+            //Member member1 = new Member(150L, "A");
+            //Member member2 = new Member(160L, "B");
+
+            //em.persist(member1);
+            //em.persist(member2);
+            //여기까지 INSERT SQL을 DB에 보내지 않음
+
+            //커밋하는 시점에 DB에 INSERT SQL을 보냄
+            //tx.commit();
+
+            //===============================================================
+
+            //영속 엔티티 조회
+            Member member = em.find(Member.class, 150L);
+            //영속 엔티티 데이터 수정
+            member.setName("ZZZ");
+            //em.persist(member); --> 필요없는 코드!!
+            tx.commit(); //Entity와 스냅샷을 비교 후 UPDATE쿼리를 생성
+
+            //===============================================================
 
             //Member findMember = em.find(Member.class,1L);
             //findMember.setName("HelloJPA"); //member 수정
@@ -36,17 +66,14 @@ public class JpaMain {
 
             //JPQL은 Entity 객체를 대상으로 쿼리 -> 객체 지향 SQL
             //SQL은 데이터베이스 테이블을 대상으로 쿼리
-            List<Member> result = em.createQuery("select m from Member as m", Member.class)
-                    .setFirstResult(1)
-                    .setMaxResults(10)
-                    .getResultList();
-
-            for(Member member : result){
-                System.out.println("member.name = " + member.getName());
-            }
-
-            tx.commit();
-
+//            List<Member> result = em.createQuery("select m from Member as m", Member.class)
+//                    .setFirstResult(1)
+//                    .setMaxResults(10)
+//                    .getResultList();
+//
+//            for(Member member : result){
+//                System.out.println("member.name = " + member.getName());
+//            }
         } catch (Exception e){
             tx.rollback();
 

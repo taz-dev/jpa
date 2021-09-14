@@ -13,6 +13,14 @@ public class Member {
     //@Column(name = "username") DB 컬럼명이 "username"일 경우
     private String name;
 
+    public Member(){
+    }
+
+    public Member(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     //Getter and Setter 단축키(Alt + Insert)
     public Long getId() {
         return id;
