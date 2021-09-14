@@ -26,6 +26,7 @@ public class JpaMain {
 
             //영속(DB에 저장되는 것은 아님)
             //em.persist(member); //JPA에 member 저장
+
             //em.detach(member); //회원 엔티티를 영속성 컨텍스트에서 분리, 준영속 상태
             //em.remove(member); //엔티티 삭제
 
@@ -49,11 +50,27 @@ public class JpaMain {
             //===============================================================
 
             //영속 엔티티 조회
-            Member member = em.find(Member.class, 150L);
+            //Member member = em.find(Member.class, 150L);
             //영속 엔티티 데이터 수정
-            member.setName("ZZZ");
+            //member.setName("ZZZ");
             //em.persist(member); --> 필요없는 코드!!
-            tx.commit(); //Entity와 스냅샷을 비교 후 UPDATE쿼리를 생성
+            //tx.commit(); //Entity와 스냅샷을 비교 후 UPDATE쿼리를 생성
+
+            //플러시 : 영속성 컨텍스트의 변경내용을 데이터베이스에 반영
+            //1. 영속성 컨텍스트를 비우지 않음
+            //2. 영속성 컨텍스트의 변경내용을 데이터베이스에 동기화
+            //3. 트랜잭션이라는 작업 단위가 중요 -> 커밋 직전에만 동기화 하면 됨
+            //Member member = new Member(200L, "member200");
+            //em.persist(member);
+            //em.flush(); //직접 호출
+            //tx.commit(); //플러시 자동 호출
+
+            Member member = em.find(Member.class, 150L);
+            member.setName("AAA");
+            em.detach(member); //특정 엔티티만 준영속 상태로 전환
+            //em.clear(); //영속성 컨텍스트를 완전히 초기화
+            //em.close(); //영속성 컨텍스트를 종료
+            tx.commit();
 
             //===============================================================
 
