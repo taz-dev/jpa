@@ -20,9 +20,8 @@ public class JpaMain {
 
         try{
             Member member = new Member();
-            member.setId(3L);
             member.setUsername("C");
-            member.setRoleType(RoleType.ADMIN);
+
             em.persist(member);
             tx.commit();
             //영속성 컨텍스트 : 엔티티를 영구 저장하는 환경(EntityManager를 통해)
