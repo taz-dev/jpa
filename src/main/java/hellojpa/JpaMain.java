@@ -19,6 +19,15 @@ public class JpaMain {
         tx.begin();
 
         try{
+            Member member = new Member();
+            member.setId(3L);
+            member.setUsername("C");
+            member.setRoleType(RoleType.ADMIN);
+            em.persist(member);
+            tx.commit();
+            //영속성 컨텍스트 : 엔티티를 영구 저장하는 환경(EntityManager를 통해)
+            //영속성 컨텍스트의 이점 : 1차 캐시, 동일성 보장, 트랜잭션을 지원하는 쓰기 지연, 변경 감지, 지연 로딩
+            
             //비영속
             //Member member = new Member();
             //member.setId(101L);
@@ -65,12 +74,12 @@ public class JpaMain {
             //em.flush(); //직접 호출
             //tx.commit(); //플러시 자동 호출
 
-            Member member = em.find(Member.class, 150L);
-            member.setName("AAA");
-            em.detach(member); //특정 엔티티만 준영속 상태로 전환
+            //Member member = em.find(Member.class, 150L);
+            //member.setName("AAA");
+            //em.detach(member); //특정 엔티티만 준영속 상태로 전환
             //em.clear(); //영속성 컨텍스트를 완전히 초기화
             //em.close(); //영속성 컨텍스트를 종료
-            tx.commit();
+            //tx.commit();
 
             //===============================================================
 
@@ -83,14 +92,14 @@ public class JpaMain {
 
             //JPQL은 Entity 객체를 대상으로 쿼리 -> 객체 지향 SQL
             //SQL은 데이터베이스 테이블을 대상으로 쿼리
-//            List<Member> result = em.createQuery("select m from Member as m", Member.class)
-//                    .setFirstResult(1)
-//                    .setMaxResults(10)
-//                    .getResultList();
-//
-//            for(Member member : result){
-//                System.out.println("member.name = " + member.getName());
-//            }
+            //List<Member> result = em.createQuery("select m from Member as m", Member.class)
+            //        .setFirstResult(1)
+            //        .setMaxResults(10)
+            //        .getResultList();
+
+            //for(Member member : result){
+            //    System.out.println("member.name = " + member.getName());
+            //}
         } catch (Exception e){
             tx.rollback();
 
