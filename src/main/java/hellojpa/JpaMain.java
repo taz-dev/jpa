@@ -19,11 +19,34 @@ public class JpaMain {
         tx.begin();
 
         try{
-            Member member = new Member();
-            member.setUsername("C");
+            Team team = new Team();
+            team.setName("TeamA");
+            em.persist(team);
 
+            Member member = new Member();
+            member.setUsername("member1");
+            member.changeTeam(team); //**연관관계의 주인에 값 설정
             em.persist(member);
+
+            //**양방향 매핑 시 순수 객체 상태를 고려해서 양쪽에 값을 설정해주자!!
+            //team.getMembers().add(member);
+            //--> 연관관계 편의 메소드를 생성하자!!
+            //--> Member의 changeTeam(setTeam)에 team.getMembers().add(this); 을 추가해주자!
+
+            em.flush();
+            em.clear();
+
+            Team findTeam = em.find(Team.class, team.getId()); //1차 캐시
+            List<Member> members = findTeam.getMembers();
+
+            for(Member m : members){
+                System.out.println("m = " + m.getUsername());
+            }
+
             tx.commit();
+
+            //===============================================================
+
             //영속성 컨텍스트 : 엔티티를 영구 저장하는 환경(EntityManager를 통해)
             //영속성 컨텍스트의 이점 : 1차 캐시, 동일성 보장, 트랜잭션을 지원하는 쓰기 지연, 변경 감지, 지연 로딩
             
