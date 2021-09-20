@@ -6,7 +6,9 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity //@Entity는 JPA가 처음 로딩될 때 JPA를 사용하는 걸로 인식하기 때문에 꼭 넣어줘야 함
 //@TableGenerator(
@@ -37,6 +39,16 @@ public class Member {
     @ManyToOne
     @JoinColumn(name = "TEAM_ID")
     private Team team;
+
+    //일대일
+    @OneToOne
+    @JoinColumn(name = "LOCKER_ID")
+    private Locker locker;
+
+    //다대다 --> 실무에서 사용X
+    @ManyToMany
+    @JoinTable(name = "MEMBER_PRODUCT")
+    private List<Product> products = new ArrayList<>();
 
 //    EnumType.STRING : enum 이름을 DB에 저장
 //    EnumType.ORDINAL : enum 순서를 DB에 저장 --> 사용X
