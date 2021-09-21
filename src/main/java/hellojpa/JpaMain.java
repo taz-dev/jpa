@@ -19,29 +19,44 @@ public class JpaMain {
         tx.begin();
 
         try{
-            Team team = new Team();
-            team.setName("TeamA");
-            em.persist(team);
 
-            Member member = new Member();
-            member.setUsername("member1");
-            member.changeTeam(team); //**연관관계의 주인에 값 설정
-            em.persist(member);
+            Movie movie = new Movie();
+            movie.setDirector("장항준");
+            movie.setActor("정호연");
+            movie.setName("오징어게임");
+            movie.setPrice(20000);
 
-            //**양방향 매핑 시 순수 객체 상태를 고려해서 양쪽에 값을 설정해주자!!
-            //team.getMembers().add(member);
-            //--> 연관관계 편의 메소드를 생성하자!!
-            //--> Member의 changeTeam(setTeam)에 team.getMembers().add(this); 을 추가해주자!
+            em.persist(movie);
 
             em.flush();
             em.clear();
 
-            Team findTeam = em.find(Team.class, team.getId()); //1차 캐시
-            List<Member> members = findTeam.getMembers();
+            Item item = em.find(Item.class, movie.getId());
+            System.out.println("findMovie : " + item);
 
-            for(Member m : members){
-                System.out.println("m = " + m.getUsername());
-            }
+//            Team team = new Team();
+//            team.setName("TeamA");
+//            em.persist(team);
+//
+//            Member member = new Member();
+//            member.setUsername("member1");
+//            member.changeTeam(team); //**연관관계의 주인에 값 설정
+//            em.persist(member);
+//
+//            //**양방향 매핑 시 순수 객체 상태를 고려해서 양쪽에 값을 설정해주자!!
+//            //team.getMembers().add(member);
+//            //--> 연관관계 편의 메소드를 생성하자!!
+//            //--> Member의 changeTeam(setTeam)에 team.getMembers().add(this); 을 추가해주자!
+//
+//            em.flush();
+//            em.clear();
+//
+//            Team findTeam = em.find(Team.class, team.getId()); //1차 캐시
+//            List<Member> members = findTeam.getMembers();
+//
+//            for(Member m : members){
+//                System.out.println("m = " + m.getUsername());
+//            }
 
             tx.commit();
 
