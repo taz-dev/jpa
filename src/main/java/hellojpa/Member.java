@@ -19,7 +19,7 @@ import java.util.List;
 //@Table(name = "USER") DB 테이블명이 "USER"일 경우
 @Getter
 @Setter
-public class Member {
+public class Member extends BaseEntity {
 
     @Id //JPA에게 PK가 뭔지 알려줘야 하기 때문에 @Id를 써줘야 함
     //@GeneratedValue(strategy = GenerationType.TABLE, generator = "MEMBER_SEQ_GENERATOR")
